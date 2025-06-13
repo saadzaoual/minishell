@@ -1,24 +1,33 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = minishell.c
+SRCS = minishell.c src/parser/tokinizer.c
 OBJS = $(SRCS:.c=.o)
-LIBS = -lreadline
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+LIBS = -lreadline -L$(LIBFT_DIR) -lft
+INCLUDES = -I$(LIBFT_DIR)
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBS)
+
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
+	make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
+	make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
 .PHONY: all clean fclean re
+

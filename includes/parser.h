@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #ifndef PARSER_H
-#define PARSER_H
+# define PARSER_H
+
+char **split_input(char *input);
 
 #endif
