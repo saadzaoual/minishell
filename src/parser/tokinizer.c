@@ -39,14 +39,13 @@ int has_unclosed_quotes(const char *str)
 static char *get_token(const char **str_ptr)
 {
     const char *s = *str_ptr;
+    const char *start;
     char *token;
     int len = 0;
-    char quote = 0;
+    char quote;
 
     while (*s == ' ')
         s++;
-
-    // Handle operators
     if (is_operator(*s))
     {
         if ((s[0] == '>' && s[1] == '>') || (s[0] == '<' && s[1] == '<'))
@@ -62,63 +61,41 @@ static char *get_token(const char **str_ptr)
         *str_ptr = s + len;
         return token;
     }
-
-    // Handle quoted strings
-    if (*s == '\'' || *s == '"')
-    {
-        quote = *s++;
-        const char *start = s;
-        while (*s && *s != quote)
-        {
-            s++;
-            len++;
-        }
-
-        token = malloc(len + 3); // +2 for quotes, +1 for \0
-        if (!token)
-            return NULL;
-        token[0] = quote;
-        strncpy(token + 1, start, len);
-        token[len + 1] = quote;
-        token[len + 2] = '\0';
-
-        if (*s == quote)
-            s++; // skip closing quote
-
-        *str_ptr = s;
-        return token;
-    }
-
-    // Handle normal words
-    const char *start = s;
+    start = s;
     while (*s && *s != ' ' && !is_operator(*s))
     {
-        s++;
-        len++;
+        if (*s == '\'' || *s == '"')
+        {
+            quote = *s++;
+            while (*s && *s != quote)
+                s++;
+            if (*s == quote)
+                s++;
+        }
+        else
+        {
+            s++;
+        }
     }
-
+    len = s - start;
     token = malloc(len + 1);
     if (!token)
         return NULL;
     strncpy(token, start, len);
     token[len] = '\0';
-
     *str_ptr = s;
     return token;
 }
-
 char **split_input(char *input)
 {
     if (!input)
         return NULL;
-
     if (has_unclosed_quotes(input))
     {
         fprintf(stderr, "minishell: syntax error: unclosed quote\n");
         return NULL;
     }
-
-    int max_tokens = strlen(input); // worst case: one char per token
+    int max_tokens = strlen(input);
     char **tokens = malloc(sizeof(char *) * (max_tokens + 1));
     if (!tokens)
         return NULL;
@@ -138,7 +115,6 @@ char **split_input(char *input)
             i++;
         }
     }
-
     tokens[i] = NULL;
     return tokens;
 }
