@@ -6,7 +6,7 @@
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 21:54:55 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/14 17:49:15 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/14 22:14:38 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	execute_child(char *cmd, char **envp, int input_fd)
 		args = parse_cmd(cmd);
 		cmd_path = find_command_path(args[0], envp);
 		execve(cmd_path, args, envp);
+		printf("[child] executing: %s\n", cmd);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
@@ -75,6 +76,7 @@ void	execute_last(char *cmd, char **envp, int in_fd, int out_fd)
 		dup2(out_fd, STDOUT_FILENO);
 		args = parse_cmd(cmd);
 		cmd_path = find_command_path(args[0], envp);
+		execve(cmd_path, args, envp);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}

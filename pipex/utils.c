@@ -6,7 +6,7 @@
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 21:29:12 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/14 17:53:18 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/14 22:16:04 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	free_array(char **arr)
 		free(arr[i++]);
 	free(arr);
 }
-
+/*
 char	*get_env_path(char **envp)
 {
 	int	i;
@@ -61,15 +61,16 @@ char	*get_env_path(char **envp)
 		i++;
 	}
 	return (NULL);
-}
+}*/
 
 char	*find_command_path(char *cmd, char **envp)
 {
-	char	*path_env = NULL;
+	char	*path_env;
 	char	**paths;
 	char	*full_path;
 	int		i;
 
+	path_env = NULL;
 	i = 0;
 	while (envp[i] && !ft_strnstr(envp[i], "PATH=", 5))
 		i++;
@@ -77,11 +78,11 @@ char	*find_command_path(char *cmd, char **envp)
 		return (NULL);
 	path_env = envp[i] + 5;
 	paths = ft_split(path_env, ':');
-	i = 0;
 	while (paths[i])
 	{
 		full_path = ft_strjoin(paths[i], "/");
 		full_path = ft_strjoin_free(full_path, cmd);
+		printf("%s\n", full_path);
 		if (access(full_path, X_OK) == 0)
 		{
 			free_array(paths);
