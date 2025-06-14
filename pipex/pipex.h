@@ -6,7 +6,7 @@
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 21:27:41 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/13 22:00:11 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/14 17:31:53 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <stdio.h>
 
 # define RESET	"\033[0m"
 # define RED	"\033[31m"
