@@ -6,13 +6,13 @@
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 17:40:19 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/15 17:44:55 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/15 17:53:14 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	exit(char **args)
+int	built_exit(char **args)
 {
 	if (args[1])
 		exit(ft_atoi(args[1]));

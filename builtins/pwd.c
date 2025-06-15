@@ -6,13 +6,13 @@
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 17:38:02 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/15 17:45:06 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/15 17:55:35 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	pwd(void)
+int	pwd_builtins(void)
 {
 	char	cwd[1024];
 
