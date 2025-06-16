@@ -6,70 +6,80 @@
 /*   By: szaoual <szaoual@students.1337.ma>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:21 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/14 21:22:55 by szaoual          ###   ########.fr       */
+/*   Updated: 2025/06/16 20:59:19 by szaoual          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "includes/parser.h"
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-int main(void)
+const char	*redir_type_str(t_rtype type)
 {
-    char *input;
-    char **tokens;
-    int cmd_count;
-    char ***split_cmds;
-    t_cmd *cmd;
+	if (type == R_IN)
+		return ("input");
+	if (type == R_OUT)
+		return ("output");
+	return ("append");
+}
 
-    while (1)
-    {
-        input = readline("minishell$> ");
-        if (!input)
-            break;
+int	main(void)
+{
+	char	*input;
+	char	**tokens;
+	t_redir	*r;
 
-        if (*input)
-            add_history(input);
-
-        tokens = split_input(input);
-        if (!tokens)
-        {
-            free(input);
-            continue;
-        }
-
-        split_cmds = split_by_pipe(tokens, &cmd_count);
-
-        for (int i = 0; i < cmd_count; i++)
-        {
-            cmd = parse_tokens(split_cmds[i]);
-            if (cmd)
-            {
-                printf("CMD[%d]: %s\n", i, cmd->cmd);
-                for (int j = 0; cmd->args && cmd->args[j]; j++)
-                    printf("Arg[%d]: %s\n", j, cmd->args[j]);
-
-                if (cmd->infile)
-                    printf("Infile: %s\n", cmd->infile);
-
-                for (int o = 0; o < cmd->out_count; o++)
-                    printf("Outfile[%d]: %s (append: %d)\n", o, cmd->outfiles[o], cmd->append_flags[o]);
-
-                free_cmd(cmd);
-            }
-
-            // free split_cmds[i]
-            for (int k = 0; split_cmds[i][k]; k++)
-                free(split_cmds[i][k]);
-            free(split_cmds[i]);
-        }
-
-        free(split_cmds);
-
-        for (int i = 0; tokens[i]; i++)
-            free(tokens[i]);
-        free(tokens);
-        free(input);
-    }
-
-    printf("exit\n");
-    return 0;
+	t_cmd *cmd, *head;
+	int i, j, k;
+	while (1)
+	{
+		input = readline("minishell$> ");
+		if (!input)
+			break ;
+		if (*input)
+			add_history(input);
+		tokens = split_input(input);
+		if (!tokens)
+		{
+			free(input);
+			continue ;
+		}
+		head = parse_pipeline(tokens);
+		cmd = head;
+		i = 0;
+		while (cmd)
+		{
+			if (cmd->cmd)
+				printf("CMD[%d]: %s\n", i, cmd->cmd);
+			else
+				printf("CMD[%d]: (null)\n", i);
+			i++;
+			j = 0;
+			while (cmd->args && cmd->args[j])
+			{
+				printf("Arg[%d]: %s\n", j, cmd->args[j]);
+				j++;
+			}
+			k = 0;
+			r = cmd->redirs;
+			while (r)
+			{
+				printf("Redir[%d]: %s (%s)\n", k, r->file,
+					redir_type_str(r->type));
+				r = r->next;
+				k++;
+			}
+			cmd = cmd->next;
+		}
+		free_cmd_list(head);
+		j = 0;
+		while (tokens[j])
+			free(tokens[j++]);
+		free(tokens);
+		free(input);
+	}
+	printf("exit\n");
+	return (0);
 }

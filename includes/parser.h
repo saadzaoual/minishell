@@ -12,21 +12,33 @@
 
 #ifndef PARSER_H
 # define PARSER_H
-#include <stdio.h>
+
+# include <stddef.h>
+
+typedef enum e_rtype
+{
+    R_IN,
+    R_OUT,
+    R_APPEND
+}   t_rtype;
+
+typedef struct s_redir
+{
+    t_rtype         type;
+    char            *file;
+    struct s_redir  *next;
+}   t_redir;
 
 typedef struct s_cmd
 {
-    char *cmd;
-    char **args;
-    char *infile;
-    char **outfiles;
-    int  *append_flags;
-    int  out_count;
-} t_cmd;
-char ***split_by_pipe(char **tokens, int *cmd_count);
-t_cmd *parse_tokens(char **tokens);
-void free_cmd(t_cmd *cmd);
-char **split_input(char *input);
-int has_unclosed_quotes(const char *str);
+    char    *cmd;
+    char    **args;
+    t_redir *redirs;
+    struct s_cmd *next;
+}   t_cmd;
+
+char        **split_input(char *input);
+t_cmd       *parse_pipeline(char **tokens);
+void        free_cmd_list(t_cmd *cmd);
 
 #endif
