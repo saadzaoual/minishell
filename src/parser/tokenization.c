@@ -7,7 +7,9 @@
 
 static int ft_strlen(const char *s)
 {
-    int i = 0;
+    int i;
+
+    i = 0;
     while (s && s[i])
         i++;
     return i;
@@ -15,7 +17,9 @@ static int ft_strlen(const char *s)
 
 int has_unclosed_quotes(const char *str)
 {
-    char quote = 0;
+    char quote;
+
+    quote = 0;
     while (*str)
     {
         if (!quote && (*str == '\'' || *str == '"'))
@@ -29,7 +33,9 @@ int has_unclosed_quotes(const char *str)
 
 static char *malloc_token(int len)
 {
-    char *token = malloc(len + 1);
+    char *token;
+
+    token = malloc(len + 1);
     if (!token)
         return NULL;
     token[len] = '\0';
@@ -38,8 +44,13 @@ static char *malloc_token(int len)
 
 static char *make_operator_token(const char **s, int len)
 {
-    char *token = malloc_token(len);
-    int i = 0;
+    char *token;
+    int i;
+
+    token = malloc_token(len);
+    if (!token)
+        return NULL;
+    i = 0;
     while (i < len)
     {
         token[i] = **s;
@@ -51,10 +62,13 @@ static char *make_operator_token(const char **s, int len)
 
 static char *copy_token(const char *start, int len)
 {
-    int i = 0;
-    char *token = malloc_token(len);
+    int i;
+    char *token;
+
+    token = malloc_token(len);
     if (!token)
         return NULL;
+    i = 0;
     while (i < len)
     {
         token[i] = start[i];
@@ -65,7 +79,9 @@ static char *copy_token(const char *start, int len)
 
 static int quoted_len(const char *s, char quote)
 {
-    int len = 1;
+    int len;
+
+    len = 1;
     while (s[len] && s[len] != quote)
         len++;
     if (s[len] == quote)
@@ -75,7 +91,9 @@ static int quoted_len(const char *s, char quote)
 
 static int get_word_len(const char *s)
 {
-    int len = 0;
+    int len;
+
+    len = 0;
     while (s[len] && s[len] != ' ' && s[len] != '|' && s[len] != '<' && s[len] != '>')
     {
         if (s[len] == '"' || s[len] == '\'')
@@ -88,10 +106,11 @@ static int get_word_len(const char *s)
 
 static char *get_token(const char **str_ptr)
 {
-    const char *s = *str_ptr;
+    const char *s;
     char *token;
     int len;
 
+    s = *str_ptr;
     while (*s == ' ')
         s++;
     if (*s == '>' || *s == '<')
@@ -127,7 +146,9 @@ static char **allocate_tokens(char *input)
 
 static int fill_tokens_loop(const char *ptr, char **tokens)
 {
-    int i = 0;
+    int i;
+
+    i = 0;
     while (*ptr)
     {
         while (*ptr == ' ')
@@ -145,14 +166,19 @@ static int fill_tokens_loop(const char *ptr, char **tokens)
 
 static void fill_tokens(const char *ptr, char **tokens)
 {
-    int count = fill_tokens_loop(ptr, tokens);
+    int count;
+
+    count = fill_tokens_loop(ptr, tokens);
     tokens[count] = NULL;
 }
 
 char **split_input(char *input)
 {
-    const char *ptr = input;
-    char **tokens = allocate_tokens(input);
+    const char *ptr;
+    char **tokens;
+
+    ptr = input;
+    tokens = allocate_tokens(input);
     if (!tokens)
         return NULL;
     fill_tokens(ptr, tokens);
