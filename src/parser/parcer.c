@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parcer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szaoual <szaoual@students.1337.ma>         +#+  +:+       +#+        */
+/*   By: szaoual <szaoual@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:51:52 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/18 15:51:53 by szaoual          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:17:43 by szaoual          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parser.h"
-#include <stdlib.h>
+#include "../includes/minishell.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -21,27 +20,6 @@ static int	ft_strcmp(const char *s1, const char *s2)
 		s2++;
 	}
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
-}
-
-static char	*ft_strdup(const char *s)
-{
-	int		len;
-	char	*dup;
-
-	len = 0;
-	while (s[len])
-		len++;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
-	len = 0;
-	while (s[len])
-	{
-		dup[len] = s[len];
-		len++;
-	}
-	dup[len] = '\0';
-	return (dup);
 }
 
 static t_redir	*create_redir(t_rtype type, const char *file)
