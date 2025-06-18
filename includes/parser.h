@@ -37,6 +37,13 @@ typedef struct s_cmd
     struct s_cmd *next;
 }   t_cmd;
 
+typedef struct s_arginfo
+{
+	int i;
+	int j;
+	int cap;
+}	t_arginfo;
+
 char        **split_input(char *input);
 t_cmd       *parse_pipeline(char **tokens);
 void        free_cmd_list(t_cmd *cmd);
