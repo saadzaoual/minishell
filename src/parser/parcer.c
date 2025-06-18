@@ -1,31 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parcer.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: szaoual <szaoual@students.1337.ma>         +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/14 20:30:16 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/16 20:59:53 by szaoual          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/parser.h"
 #include <stdlib.h>
 
-static int	ft_strcmp(const char *s1, const char *s2)
+static int ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 && *s1 == *s2)
 		s1++, s2++;
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
-static char	*ft_strdup(const char *s)
+static char *ft_strdup(const char *s)
 {
-	int		len;
-	char	*dup;
-
-	len = 0;
+	int len = 0;
+	char *dup;
 	while (s[len])
 		len++;
 	dup = malloc(len + 1);
@@ -41,11 +27,9 @@ static char	*ft_strdup(const char *s)
 	return (dup);
 }
 
-static t_redir	*create_redir(t_rtype type, const char *file)
+static t_redir *create_redir(t_rtype type, const char *file)
 {
-	t_redir	*node;
-
-	node = malloc(sizeof(t_redir));
+	t_redir *node = malloc(sizeof(t_redir));
 	if (!node)
 		return (NULL);
 	node->type = type;
@@ -54,93 +38,82 @@ static t_redir	*create_redir(t_rtype type, const char *file)
 	return (node);
 }
 
-static void	add_redir(t_cmd *cmd, t_redir *redir)
+static void add_redir(t_cmd *cmd, t_redir *redir)
 {
-	t_redir	*tmp;
-
-	tmp = cmd->redirs;
+	t_redir *tmp = cmd->redirs;
 	if (!tmp)
 	{
 		cmd->redirs = redir;
-		return ;
+		return;
 	}
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = redir;
 }
 
-static t_cmd	*create_cmd_node(char **tokens, int start, int end)
+static void realloc_args(char ***args, int *cap, int used)
 {
-	t_cmd	*cmd;
-	int		i;
-	int		j;
-	int		arg_cap;
-			t_rtype type;
-	char	**new_args;
-	int		k;
+	char **new_args;
+	int k = 0;
+	*cap *= 2;
+	new_args = malloc(sizeof(char *) * (*cap));
+	while (k < used)
+	{
+		new_args[k] = (*args)[k];
+		k++;
+	}
+	free(*args);
+	*args = new_args;
+}
 
-	cmd = malloc(sizeof(t_cmd));
-	i = start;
-	j = 0;
-	arg_cap = 4;
+static void handle_redir(t_cmd *cmd, char **tokens, int *i)
+{
+	t_rtype type;
+	if (tokens[*i][0] == '<')
+		type = R_IN;
+	else if (tokens[*i][1] == '>')
+		type = R_APPEND;
+	else
+		type = R_OUT;
+	add_redir(cmd, create_redir(type, tokens[*i + 1]));
+	*i += 2;
+}
+
+static void handle_argument(t_cmd *cmd, char **tokens, int *j, int *cap, int *i)
+{
+	if (*j >= *cap)
+		realloc_args(&cmd->args, cap, *j);
+	if (!cmd->cmd)
+		cmd->cmd = ft_strdup(tokens[*i]);
+	cmd->args[(*j)++] = ft_strdup(tokens[*i]);
+	(*i)++;
+}
+
+static t_cmd *create_cmd_node(char **tokens, int start, int end)
+{
+	t_cmd *cmd = malloc(sizeof(t_cmd));
+	int i = start, j = 0, cap = 4;
 	if (!cmd)
 		return (NULL);
-	cmd->args = malloc(sizeof(char *) * arg_cap);
+	cmd->args = malloc(sizeof(char *) * cap);
 	cmd->cmd = NULL;
 	cmd->redirs = NULL;
 	cmd->next = NULL;
 	while (i < end && tokens[i])
 	{
-		if ((ft_strcmp(tokens[i], ">") == 0 || ft_strcmp(tokens[i], ">>") == 0
-				|| ft_strcmp(tokens[i], "<") == 0) && tokens[i + 1])
-		{
-			if (tokens[i][0] == '<')
-				type = R_IN;
-			else if (tokens[i][1] == '>')
-				type = R_APPEND;
-			else
-				type = R_OUT;
-			add_redir(cmd, create_redir(type, tokens[i + 1]));
-			i += 2;
-		}
+		if ((ft_strcmp(tokens[i], ">") == 0 || ft_strcmp(tokens[i], ">>") == 0 || ft_strcmp(tokens[i], "<") == 0) && tokens[i + 1])
+			handle_redir(cmd, tokens, &i);
 		else
-		{
-			if (j >= arg_cap)
-			{
-				arg_cap *= 2;
-				new_args = malloc(sizeof(char *) * arg_cap);
-				k = 0;
-				while (k < j)
-				{
-					new_args[k] = cmd->args[k];
-					k++;
-				}
-				free(cmd->args);
-				cmd->args = new_args;
-			}
-			if (!cmd->cmd)
-				cmd->cmd = ft_strdup(tokens[i]);
-			cmd->args[j] = ft_strdup(tokens[i]);
-			j++;
-			i++;
-		}
+			handle_argument(cmd, tokens, &j, &cap, &i);
 	}
 	cmd->args[j] = NULL;
 	return (cmd);
 }
 
-t_cmd	*parse_pipeline(char **tokens)
+t_cmd *parse_pipeline(char **tokens)
 {
-	int		start;
-	int		i;
-	t_cmd	*head;
-	t_cmd	*tail;
-	t_cmd	*new_node;
-
-	start = 0;
-	i = 0;
-	head = NULL;
-	tail = NULL;
+	int start = 0, i = 0;
+	t_cmd *head = NULL, *tail = NULL, *new_node;
 	while (tokens[i])
 	{
 		if (ft_strcmp(tokens[i], "|") == 0)
@@ -160,28 +133,23 @@ t_cmd	*parse_pipeline(char **tokens)
 		head = new_node;
 	else
 		tail->next = new_node;
-	return (head);
+	return head;
 }
 
-void	free_cmd_list(t_cmd *cmd)
+void free_cmd_list(t_cmd *cmd)
 {
-	t_cmd	*tmp;
-	int		i;
-	t_redir	*r;
-	t_redir	*next;
-
+	t_cmd *tmp;
+	int i;
+	t_redir *r, *next;
 	while (cmd)
 	{
 		tmp = cmd->next;
 		if (cmd->cmd)
 			free(cmd->cmd);
-		if (cmd->args)
-		{
-			i = 0;
-			while (cmd->args[i])
-				free(cmd->args[i++]);
-			free(cmd->args);
-		}
+		i = 0;
+		while (cmd->args && cmd->args[i])
+			free(cmd->args[i++]);
+		free(cmd->args);
 		r = cmd->redirs;
 		while (r)
 		{
