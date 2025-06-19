@@ -6,7 +6,7 @@
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 20:53:51 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/18 20:58:03 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/19 18:42:06 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,16 @@ char	**copy_env(char **envp)
 	}
 	copy[i] = NULL;
 	return (copy);
+}
+
+void	free_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	if (!env)
+		return ;
+	while (env[i])
+		free(env[i++]);
+	free(env);
 }
