@@ -6,12 +6,13 @@
 /*   By: szaoual <szaoual@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:00 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/18 16:15:00 by szaoual          ###   ########.fr       */
+/*   Updated: 2025/06/18 17:53:11 by szaoual          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
+// headers;
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,6 +23,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../libft/libft.h"
+//structs;
 typedef enum e_rtype
 {
     R_IN,
@@ -50,9 +52,14 @@ typedef struct s_arginfo
 	int j;
 	int cap;
 }	t_arginfo;
-
 char        **split_input(char *input);
 t_cmd       *parse_pipeline(char **tokens);
 void        free_cmd_list(t_cmd *cmd);
-
+int	has_unclosed_quotes(const char *str);
+char	*make_operator_token(const char **s, int len);
+char	*copy_token(const char *start, int len);
+int	quoted_len(const char *s, char quote);
+int	get_word_len(const char *s);
+int	is_double_operator(const char *s);
+int	is_operator(char c);
 #endif

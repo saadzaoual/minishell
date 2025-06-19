@@ -1,7 +1,11 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = minishell.c src/parser/token.c src/parser/parcer.c
+SRCS = 	minishell.c \
+		src/parser/token.c \
+		src/parser/parcer.c \
+		src/utils/token_utils/token1_utils.c \
+		src/utils/token_utils/token2_utils.c
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

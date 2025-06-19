@@ -12,109 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int	has_unclosed_quotes(const char *str)
-{
-	char	quote;
-
-	quote = 0;
-	while (*str)
-	{
-		if (!quote && (*str == '\'' || *str == '"'))
-			quote = *str;
-		else if (quote && *str == quote)
-			quote = 0;
-		str++;
-	}
-	return (quote != 0);
-}
-
-static char	*malloc_token(int len)
-{
-	char	*token;
-
-	token = malloc(len + 1);
-	if (!token)
-		return (NULL);
-	token[len] = '\0';
-	return (token);
-}
-
-static char	*make_operator_token(const char **s, int len)
-{
-	char	*token;
-	int		i;
-
-	token = malloc_token(len);
-	if (!token)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		token[i] = **s;
-		(*s)++;
-		i++;
-	}
-	return (token);
-}
-
-static char	*copy_token(const char *start, int len)
-{
-	int		i;
-	char	*token;
-
-	token = malloc_token(len);
-	if (!token)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		token[i] = start[i];
-		i++;
-	}
-	return (token);
-}
-
-static int	quoted_len(const char *s, char quote)
-{
-	int	len;
-
-	len = 1;
-	while (s[len] && s[len] != quote)
-		len++;
-	if (s[len] == quote)
-		len++;
-	return (len);
-}
-
-static int	get_word_len(const char *s)
-{
-	int	len;
-
-	len = 0;
-	while (s[len] && s[len] != ' ' && s[len] != '|' && s[len] != '<'
-		&& s[len] != '>')
-	{
-		if (s[len] == '"' || s[len] == '\'')
-			len += quoted_len(s + len, s[len]);
-		else
-			len++;
-	}
-	return (len);
-}
-
-static int	is_double_operator(const char *s)
-{
-	if ((s[0] == '>' && s[1] == '>') || (s[0] == '<' && s[1] == '<'))
-		return (1);
-	return (0);
-}
-
-static int	is_operator(char c)
-{
-	return (c == '>' || c == '<' || c == '|');
-}
-
-static char	*get_token(const char **str_ptr)
+char	*get_token(const char **str_ptr)
 {
 	const char	*s;
 	char		*token;
@@ -141,7 +39,7 @@ static char	*get_token(const char **str_ptr)
 	return (token);
 }
 
-static char	**allocate_tokens(char *input)
+char	**allocate_tokens(char *input)
 {
 	if (!input)
 		return (NULL);
@@ -153,7 +51,7 @@ static char	**allocate_tokens(char *input)
 	return (malloc(sizeof(char *) * (ft_strlen(input) + 1)));
 }
 
-static int	fill_tokens_loop(const char *ptr, char **tokens)
+int	fill_tokens_loop(const char *ptr, char **tokens)
 {
 	int	i;
 
@@ -173,7 +71,7 @@ static int	fill_tokens_loop(const char *ptr, char **tokens)
 	return (i);
 }
 
-static void	fill_tokens(const char *ptr, char **tokens)
+void	fill_tokens(const char *ptr, char **tokens)
 {
 	int	count;
 

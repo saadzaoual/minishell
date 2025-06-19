@@ -6,7 +6,7 @@
 /*   By: szaoual <szaoual@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:21 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/18 16:15:45 by szaoual          ###   ########.fr       */
+/*   Updated: 2025/06/18 17:35:42 by szaoual          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,13 @@ int	main(void)
 {
 	char	*input;
 	char	**tokens;
+	t_cmd	*cmd;
+	t_cmd	*head;
 	t_redir	*r;
+	int		i;
+	int		j;
+	int		k;
 
-	t_cmd *cmd, *head;
-	int i, j, k;
 	while (1)
 	{
 		input = readline("minishell$> ");
@@ -51,7 +54,6 @@ int	main(void)
 				printf("CMD[%d]: %s\n", i, cmd->cmd);
 			else
 				printf("CMD[%d]: (null)\n", i);
-			i++;
 			j = 0;
 			while (cmd->args && cmd->args[j])
 			{
@@ -62,12 +64,12 @@ int	main(void)
 			r = cmd->redirs;
 			while (r)
 			{
-				printf("Redir[%d]: %s (%s)\n", k, r->file,
-					redir_type_str(r->type));
+				printf("Redir[%d]: %s (%s)\n", k, r->file, redir_type_str(r->type));
 				r = r->next;
 				k++;
 			}
 			cmd = cmd->next;
+			i++;
 		}
 		free_cmd_list(head);
 		j = 0;
