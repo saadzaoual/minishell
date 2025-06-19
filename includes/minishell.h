@@ -6,7 +6,7 @@
 /*   By: szaoual <szaoual@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:00 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/19 09:24:46 by szaoual          ###   ########.fr       */
+/*   Updated: 2025/06/19 11:59:29 by szaoual          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,6 @@ int		is_operator(char c);
 int		ft_strcmp(const char *s1, const char *s2);
 void	handle_redir(t_cmd *cmd, char **tokens, int *i);
 void	handle_argument(t_cmd *cmd, char **tokens, t_arginfo *info);
+//syntax_error.:
+int	check_syntax(char **tokens);
 #endif
