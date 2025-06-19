@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe_utils.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 20:53:51 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/19 18:42:06 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:09:34 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ char	**copy_env(char **envp)
 	return (copy);
 }
 
-void	free_env(char **env)
+void	free_env(char **envp)
 {
 	int	i;
 
 	i = 0;
-	if (!env)
+	if (!envp)
 		return ;
-	while (env[i])
-		free(env[i++]);
-	free(env);
+	while (envp[i])
+		free(envp[i++]);
+	free(envp);
 }

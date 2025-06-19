@@ -6,10 +6,18 @@
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 18:55:02 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/19 19:06:36 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:10:46 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 
+int ft_env_size(char **envp)
+{
+	int	i;
+
+	while (envp[i])
+		i++;
+	return (i + 1);
+}
