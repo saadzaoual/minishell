@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token1_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: szaoual <szaoual@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 09:25:30 by szaoual           #+#    #+#             */
+/*   Updated: 2025/06/19 09:25:30 by szaoual          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 int	has_unclosed_quotes(const char *str)
@@ -27,7 +39,6 @@ char	*malloc_token(int len)
 	return (token);
 }
 
-
 char	*make_operator_token(const char **s, int len)
 {
 	char	*token;
@@ -45,6 +56,7 @@ char	*make_operator_token(const char **s, int len)
 	}
 	return (token);
 }
+
 char	*copy_token(const char *start, int len)
 {
 	int		i;
