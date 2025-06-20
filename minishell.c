@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szaoual <szaoual@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:21 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/18 16:15:45 by szaoual          ###   ########.fr       */
+/*   Updated: 2025/06/19 21:57:01 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
+char **env;
 const char	*redir_type_str(t_rtype type)
 {
 	if (type == R_IN)
@@ -21,14 +21,17 @@ const char	*redir_type_str(t_rtype type)
 	return ("append");
 }
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	char	**tokens;
 	t_redir	*r;
 
+	(void)ac;
+	(void)av;
 	t_cmd *cmd, *head;
 	int i, j, k;
+	env = copy_env(envp);
 	while (1)
 	{
 		input = readline("minishell$> ");
@@ -67,6 +70,8 @@ int	main(void)
 				r = r->next;
 				k++;
 			}
+			if (is_builtin(cmd->cmd))
+				exec_builtin(cmd);
 			cmd = cmd->next;
 		}
 		free_cmd_list(head);

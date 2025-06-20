@@ -14,15 +14,15 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 ${NAME}: ${OBJS}
-	ar rcs ${NAME} ${OBJS}
+	@ar rcs ${NAME} ${OBJS}
 
 all: ${NAME}
 
 clean:
-	rm -rf ${OBJS}
+	@rm -rf ${OBJS}
 
 fclean: clean
-	rm -rf ${NAME}
+	@rm -rf ${NAME}
 
 re: fclean all
 

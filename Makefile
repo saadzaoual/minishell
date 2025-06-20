@@ -1,8 +1,26 @@
+#colors
+RESET       = "\033[0m"
+RED         = "\033[31m"
+GREEN       = "\033[32m"
+YELLOW      = "\033[33m"
+#colors
+
 NAME = minishell
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = minishell.c src/parser/token.c src/parser/parcer.c
+
+SRCS = 	minishell.c \
+		src/parser/token.c \
+		src/parser/parcer.c \
+		src/execution/builtins.c \
+		src/execution/built_func.c \
+		src/execution/env.c \
+		src/execution/export.c \
+		src/execution/unset.c
+
 OBJS = $(SRCS:.c=.o)
+
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBS = -lreadline -L$(LIBFT_DIR) -lft
@@ -12,20 +30,24 @@ all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBS)
+	@echo $(GREEN) " - Compiling FINISHED" $(RESET)
+
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+$(OBJS): %.o: %.c
+	@$(CC) $(CFLAGS) $(INCLUDES) -Iincludes -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
-	make -C $(LIBFT_DIR) clean
+	@rm -f $(OBJS)
+	@make -C $(LIBFT_DIR) clean
+	@echo $(RED) " - Cleaned!" $(RESET)
 
 fclean: clean
-	rm -f $(NAME)
-	make -C $(LIBFT_DIR) fclean
+	@rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
+	@echo $(RED) " - Full Cleaned!" $(RESET)
 
 re: fclean all
 
