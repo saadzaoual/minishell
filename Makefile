@@ -13,11 +13,14 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = 	minishell.c \
 		src/parser/token.c \
 		src/parser/parcer.c \
-		src/execution/builtins.c \
-		src/execution/built_func.c \
-		src/execution/env.c \
-		src/execution/export.c \
-		src/execution/unset.c
+		src/execution/builtins/builtins.c \
+		src/execution/builtins/cd.c \
+		src/execution/builtins/echo.c \
+		src/execution/builtins/env.c \
+		src/execution/builtins/exit.c \
+		src/execution/builtins/export.c \
+		src/execution/builtins/pwd.c \
+		src/execution/builtins/unset.c
 
 OBJS = $(SRCS:.c=.o)
 

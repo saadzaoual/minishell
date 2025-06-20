@@ -6,11 +6,11 @@
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 20:29:35 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/19 21:56:07 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:42:14 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../execution.h"
 
 
 int	is_builtin(char *cmd)

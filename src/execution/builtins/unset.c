@@ -6,12 +6,11 @@
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 18:55:02 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/19 20:59:41 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:42:06 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
-
+#include "../execution.h"
 
 int ft_env_size(char **envp)
 {

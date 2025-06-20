@@ -6,11 +6,11 @@
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 20:53:51 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/19 20:05:08 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:31:05 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../execution.h"
 
 char	**copy_env(char **envp)
 {
@@ -51,4 +51,18 @@ void	free_env(char **envp)
 	while (envp[i])
 		free(envp[i++]);
 	free(envp);
+}
+
+int	builtin_env(char **args)
+{
+	int	i;
+
+	i = 0;
+	args = env;
+	while (env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+	return (0);
 }

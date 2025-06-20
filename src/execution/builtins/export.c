@@ -6,11 +6,11 @@
 /*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 18:38:37 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/20 16:26:50 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:42:09 by ael-azha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../execution.h"
 
 char	*extract_key(char *arg)
 {
