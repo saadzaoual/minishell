@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 20:53:51 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/20 17:31:05 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:30:59 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ char	**copy_env(char **envp)
 		copy[i] = ft_strdup(envp[i]);
 		if (!copy[i])
 		{
-			while (--i >= 0)
-				free(copy[i]);
-			free(copy);
+			free_env(envp[i]);
 			return (NULL);
 		}
 	}
@@ -59,9 +57,9 @@ int	builtin_env(char **args)
 
 	i = 0;
 	args = env;
-	while (env[i])
+	while (args[i])
 	{
-		printf("%s\n", env[i]);
+		printf("%s\n", args[i]);
 		i++;
 	}
 	return (0);
