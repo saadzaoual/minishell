@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:21 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/19 21:57:01 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/25 20:46:11 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int	main(int ac, char **av, char **envp)
 			}
 			if (is_builtin(cmd->cmd))
 				exec_builtin(cmd);
+			else
+				exec_external(cmd);
 			cmd = cmd->next;
 		}
 		free_cmd_list(head);

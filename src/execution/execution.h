@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-azha <ael-azha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:04:31 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/19 21:50:26 by ael-azha         ###   ########.fr       */
+/*   Updated: 2025/06/25 20:19:31 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,9 @@ void	remove_env_var(const char *key);
 /* Export/Unset Helpers */
 char	*extract_key(char *arg);
 char	**expand_env(char *arg, char *key, int i);
+
+/* Command Execution */
+char    *get_cmd_path(t_cmd *cmd);
+int     exec_external(t_cmd *cmd);
+
 #endif
