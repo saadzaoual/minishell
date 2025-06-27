@@ -6,7 +6,7 @@
 /*   By: szaoual <szaoual@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:00 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/19 11:59:29 by szaoual          ###   ########.fr       */
+/*   Updated: 2025/06/27 13:10:09 by szaoual          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
+# include "../src/execution/execution.h"
 /******************************************************************************
 *                                    STRUCTS                                  *
 ******************************************************************************/
+extern char	**env;
 typedef enum e_rtype
 {
 	R_IN,
@@ -79,6 +81,9 @@ int		is_operator(char c);
 int		ft_strcmp(const char *s1, const char *s2);
 void	handle_redir(t_cmd *cmd, char **tokens, int *i);
 void	handle_argument(t_cmd *cmd, char **tokens, t_arginfo *info);
-//syntax_error.:
-int	check_syntax(char **tokens);
+//syntax_error:
+int		check_syntax(char **tokens);
+//syntax_error_utils:
+int		is_redir(const char *s);
+int		is_pipe(const char *s);
 #endif

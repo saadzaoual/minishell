@@ -12,39 +12,18 @@
 
 #include "includes/minishell.h"
 
-const char	*redir_type_str(t_rtype type)
-{
-	if (type == R_IN)
-		return ("input");
-	if (type == R_OUT)
-		return ("output");
-	return ("append");
-}
-void	free_tokens(char **tokens)
-{
-	int	i;
+char **env;
 
-	if (!tokens)
-		return;
-	i = 0;
-	while (tokens[i])
-	{
-		free(tokens[i]);
-		i++;
-	}
-	free(tokens);
-}
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	char	**tokens;
-	t_cmd	*cmd;
-	t_cmd	*head;
-	t_redir	*r;
-	int		i;
+	t_cmd	*cmd, *head;
 	int		j;
-	int		k;
 
+	(void)ac;
+	(void)av;
+	env = copy_env(envp);
 	while (1)
 	{
 		input = readline("minishell$> ");
@@ -58,40 +37,21 @@ int	main(void)
 			free(input);
 			continue ;
 		}
-		if (check_syntax(tokens))
-		{
-			free_tokens(tokens);
-			free(input);
-			continue;
-		}
 		head = parse_pipeline(tokens);
 		cmd = head;
-		i = 0;
 		while (cmd)
 		{
-			if (cmd->cmd)
-				printf("CMD[%d]: %s\n", i, cmd->cmd);
+			if (is_builtin(cmd->cmd))
+				exec_builtin(cmd);
 			else
-				printf("CMD[%d]: (null)\n", i);
-			j = 0;
-			while (cmd->args && cmd->args[j])
-			{
-				printf("Arg[%d]: %s\n", j, cmd->args[j]);
-				j++;
-			}
-			k = 0;
-			r = cmd->redirs;
-			while (r)
-			{
-				printf("Redir[%d]: %s (%s)\n", k, r->file, redir_type_str(r->type));
-				r = r->next;
-				k++;
-			}
+				exec_external(cmd);
 			cmd = cmd->next;
-			i++;
 		}
 		free_cmd_list(head);
-		free_tokens(tokens);
+		j = 0;
+		while (tokens[j])
+			free(tokens[j++]);
+		free(tokens);
 		free(input);
 	}
 	printf("exit\n");

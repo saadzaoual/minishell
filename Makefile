@@ -9,7 +9,18 @@ SRCS        = minishell.c \
 			  src/parser/syntax_error.c \
               src/utils/token_utils/token1_utils.c \
               src/utils/token_utils/token2_utils.c \
-              src/utils/parcer_utils/parcer1_utils.c
+              src/utils/parcer_utils/parcer1_utils.c \
+			  src/utils/parcer_utils/syntax_error_utils.c \
+			  src/execution/builtins/builtins.c \
+			  src/execution/builtins/echo.c \
+			  src/execution/builtins/cd.c \
+			  src/execution/builtins/env.c \
+			  src/execution/builtins/exit.c \
+			  src/execution/builtins/export.c \
+			  src/execution/builtins/pwd.c \
+			  src/execution/builtins/unset.c \
+			  src/execution/excve/path.c \
+			  src/execution/excve/execute.c \
 
 OBJS        = $(SRCS:.c=.o)
 

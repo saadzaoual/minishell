@@ -20,51 +20,46 @@ int	is_operatorsyserror(const char *s)
 		|| !ft_strcmp(s, "<")
 		|| !ft_strcmp(s, "<<"));
 }
-int	is_redir(const char *s)
+
+static int	syntax_error_msg(const char *msg)
 {
-	return (!ft_strcmp(s, ">") || !ft_strcmp(s, ">>")
-		|| !ft_strcmp(s, "<") || !ft_strcmp(s, "<<"));
+	write(2, "minishell: syntax error near unexpected token `", 46);
+	write(2, msg, ft_strlen(msg));
+	write(2, "'\n", 2);
+	return (1);
 }
 
-int	is_pipe(const char *s)
+static int	check_pipe_error(char **tokens, int i)
 {
-	return (!ft_strcmp(s, "|"));
+	if (!tokens[i + 1] || is_pipe(tokens[i + 1]))
+		return (syntax_error_msg(tokens[i]));
+	return (0);
+}
+
+static int	check_redir_error(char **tokens, int i)
+{
+	if (!tokens[i + 1])
+		return (syntax_error_msg("newline"));
+	if (is_redir(tokens[i + 1]) || is_pipe(tokens[i + 1]))
+		return (syntax_error_msg(tokens[i + 1]));
+	return (0);
 }
 
 int	check_syntax(char **tokens)
 {
-	int i;
+	int	i;
 
 	if (!tokens || !tokens[0])
 		return (0);
-
 	i = 0;
-
-	// First token can't be a pipe
 	if (is_pipe(tokens[i]))
-	{
-		printf("minishell: syntax error near unexpected token `%s'\n", tokens[i]);
-		return (1);
-	}
-
+		return (syntax_error_msg(tokens[i]));
 	while (tokens[i])
 	{
-		if (is_pipe(tokens[i]))
-		{
-			if (!tokens[i + 1] || is_pipe(tokens[i + 1]))
-			{
-				printf("minishell: syntax error near unexpected token `%s'\n", tokens[i]);
-				return (1);
-			}
-		}
-		else if (is_redir(tokens[i]))
-		{
-			if (!tokens[i + 1] || is_operatorsyserror(tokens[i + 1]))
-			{
-				printf("minishell: syntax error near unexpected token `%s'\n", tokens[i]);
-				return (1);
-			}
-		}
+		if (is_pipe(tokens[i]) && check_pipe_error(tokens, i))
+			return (1);
+		if (is_redir(tokens[i]) && check_redir_error(tokens, i))
+			return (1);
 		i++;
 	}
 	return (0);
