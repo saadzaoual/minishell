@@ -6,7 +6,7 @@
 /*   By: szaoual <szaoual@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:21 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/19 11:57:00 by szaoual          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:34:50 by szaoual          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int	main(int ac, char **av, char **envp)
 			free(input);
 			continue ;
 		}
+
+		expand_tokens(tokens); // ← Add this line to expand $VAR
+
 		head = parse_pipeline(tokens);
 		cmd = head;
 		while (cmd)

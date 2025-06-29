@@ -6,7 +6,7 @@
 /*   By: szaoual <szaoual@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:00 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/27 13:10:09 by szaoual          ###   ########.fr       */
+/*   Updated: 2025/06/29 11:23:35 by szaoual          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,8 @@ int		check_syntax(char **tokens);
 //syntax_error_utils:
 int		is_redir(const char *s);
 int		is_pipe(const char *s);
+//expand:
+void	expand_tokens(char **tokens);
+char *get_env_value(const char *name);
+
 #endif

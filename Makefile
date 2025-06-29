@@ -21,6 +21,7 @@ SRCS        = minishell.c \
 			  src/execution/builtins/unset.c \
 			  src/execution/excve/path.c \
 			  src/execution/excve/execute.c \
+			  src/expand/expand.c
 
 OBJS        = $(SRCS:.c=.o)
 
