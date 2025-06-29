@@ -65,7 +65,11 @@ static char	*replace_var(const char *str, int *i)
 	char	*res;
 	int		len;
 
-	len = 0;
+	if (str[*i + 1] == '$') // check for $$
+	{
+		*i += 2;
+		return (ft_itoa(getpid()));
+	}
 	(*i)++;
 	name = get_var_name(str + *i, &len);
 	*i += len;
@@ -76,6 +80,7 @@ static char	*replace_var(const char *str, int *i)
 	res = ft_strdup(val);
 	return (res);
 }
+
 
 static char	*expand_loop(const char *str, int i, int sq, int quoted)
 {
