@@ -47,6 +47,22 @@ static char	*get_var_name(const char *str, int *len)
 	res = ft_substr(str, 0, i);
 	return (res);
 }
+char	*get_shell_pid(void)
+{
+	int		fd;
+	char	buffer[32];
+	ssize_t	bytes;
+
+	fd = open("/proc/self/stat", O_RDONLY);
+	if (fd == -1)
+		return (NULL);
+	bytes = read(fd, buffer, sizeof(buffer) - 1);
+	close(fd);
+	if (bytes <= 0)
+		return (NULL);
+	buffer[bytes] = '\0';
+	return (ft_strdup(ft_itoa(ft_atoi(buffer))));
+}
 
 static char	*merge_and_free(char *s1, char *s2)
 {
@@ -65,10 +81,10 @@ static char	*replace_var(const char *str, int *i)
 	char	*res;
 	int		len;
 
-	if (str[*i + 1] == '$') // check for $$
+	if (str[*i + 1] == '$')
 	{
 		*i += 2;
-		return (ft_itoa(getpid()));
+		return (get_shell_pid());
 	}
 	(*i)++;
 	name = get_var_name(str + *i, &len);
