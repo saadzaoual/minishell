@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szaoual <szaoual@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:00 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/27 13:10:09 by szaoual          ###   ########.fr       */
+/*   Updated: 2025/06/29 13:42:53 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@
 /******************************************************************************
 *                                    STRUCTS                                  *
 ******************************************************************************/
-extern char	**env;
+extern char **env;
 typedef enum e_rtype
 {
 	R_IN,
 	R_OUT,
-	R_APPEND
+	R_APPEND,
+	R_HEREDOC
 }	t_rtype;
 
 typedef struct s_redir
@@ -46,6 +47,8 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
+//.	char			**env;//Stored the env information
+//	int				exit_code;//For exit status
 	char			*cmd;
 	char			**args;
 	t_redir			*redirs;

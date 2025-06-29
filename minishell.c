@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szaoual <szaoual@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:21 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/19 11:57:00 by szaoual          ###   ########.fr       */
+/*   Updated: 2025/06/29 13:45:21 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
 char **env;
 
 int	main(int ac, char **av, char **envp)
@@ -24,6 +23,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	env = copy_env(envp);
+//	data.exit_code = 0;
 	while (1)
 	{
 		input = readline("minishell$> ");
@@ -41,10 +41,8 @@ int	main(int ac, char **av, char **envp)
 		cmd = head;
 		while (cmd)
 		{
-			if (is_builtin(cmd->cmd))
-				exec_builtin(cmd);
-			else
-				exec_external(cmd);
+			if (!execute_command(cmd, head, input))
+				break ;
 			cmd = cmd->next;
 		}
 		free_cmd_list(head);

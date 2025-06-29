@@ -6,52 +6,21 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:04:31 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/25 20:19:31 by ayoub            ###   ########.fr       */
+/*   Updated: 2025/06/29 13:40:17 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
-/*# include "../../includes/minishell.h" 
-# include <errno.h>
-# include <sys/wait.h>
-# include <fcntl.h>
-
-//buitlins
-int		is_builtin(char *cmd);
-//int		exec_builtin(t_cmd *cmd);
-//char	get_cmd_path(char *cmd, char **env);
-//void	handle_redirections(t_redir *redirs);
-//void	close_all_pipes(int **pipes, int count);
-char	**copy_env(char **envp);
-void	free_env(char **envp);
-
-//buitlins function
-int		builtin_echo(char **args);
-int		builtin_cd(char **args);
-int		builtin_pwd(void);
-int		builtin_export(char **args);
-int		builtin_unset(char **args);
-int		builtin_env(char **env);
-int		builtin_exit(char **args);
-
-//export buitlin functions
-static char	*extract_key(char *arg);
-static char	**expand_env(char *arg, char *key, int i);
-int			update_env_var(char *arg);
-
-//unset builtin functions
-int			ft_env_size(char **envp);
-static void	remove_env_var(const char *key);
-*/
-
 # include "../../includes/minishell.h"
 # include <errno.h>
 # include <sys/wait.h>
 # include <fcntl.h>
 
-typedef struct s_cmd t_cmd;
+typedef struct s_cmd	t_cmd;
+typedef struct s_redir	t_redir;
+
 /* Builtins */
 int		exec_builtin(t_cmd *cmd);
 int		is_builtin(char *cmd);
@@ -77,5 +46,12 @@ char	**expand_env(char *arg, char *key, int i);
 /* Command Execution */
 char    *get_cmd_path(t_cmd *cmd);
 int     exec_external(t_cmd *cmd);
+int		handle_builtin_in_parent(t_cmd *cmd, t_cmd *head, char *input);
+int		execute_command(t_cmd *cmd, t_cmd *head, char *input);
+
+/* Handle Redirection and Heredoc */
+int	has_redir(t_cmd *cmd);
+int	open_heredoc(char *delimiter);
+int	handle_redirections(t_redir *redir);
 
 #endif
