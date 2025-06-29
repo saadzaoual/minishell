@@ -6,7 +6,7 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:14:41 by ayoub             #+#    #+#             */
-/*   Updated: 2025/06/29 13:17:40 by ayoub            ###   ########.fr       */
+/*   Updated: 2025/06/29 15:12:38 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 int	handle_builtin_in_parent(t_cmd *cmd, t_cmd *head, char *input)
 {
 	int	ret;
-	int	in = dup(STDIN_FILENO);
-	int	out = dup(STDOUT_FILENO);
+	int	in, out;
 
+	in = dup(STDIN_FILENO);
+	out = dup(STDOUT_FILENO);
 	if (handle_redirections(cmd->redirs))
 	{
 		dup2(in, STDIN_FILENO);
@@ -37,7 +38,7 @@ int	handle_builtin_in_parent(t_cmd *cmd, t_cmd *head, char *input)
 		free(input);
 		exit(-(ret + 42));
 	}
-	return (1);
+	return (ret);
 }
 
 int	execute_command(t_cmd *cmd, t_cmd *head, char *input)

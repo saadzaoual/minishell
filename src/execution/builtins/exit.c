@@ -6,7 +6,7 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:41:28 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/29 13:41:46 by ayoub            ###   ########.fr       */
+/*   Updated: 2025/06/29 14:00:57 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,20 @@
 // 	exit(code);
 // }
 
-#include "../execution.h"
-
-static int	is_numeric(const char *s)
+int	is_numeric(const char *s)
 {
-	if (!s || *s == '\0')
+	int	i;
+
+	i = 0;
+	if (!s || s[i] == '\0')
 		return (0);
-	if (*s == '+' || *s == '-')
-		s++;
-	while (*s)
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+	while (s[i])
 	{
-		if (*s < '0' || *s > '9')
+		if (s[i] < '0' || s[i] > '9')
 			return (0);
-		s++;
+		i++;
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:04:31 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/29 13:40:17 by ayoub            ###   ########.fr       */
+/*   Updated: 2025/06/29 15:20:01 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		builtin_export(char **args);
 int		builtin_unset(char **args);
 int		builtin_env(char **env);
 int		builtin_exit(char **args);
+int		is_numeric(const char *s);
 
 /* Environment Handling */
 char	**copy_env(char **envp);
@@ -44,13 +45,14 @@ char	*extract_key(char *arg);
 char	**expand_env(char *arg, char *key, int i);
 
 /* Command Execution */
-char    *get_cmd_path(t_cmd *cmd);
-int     exec_external(t_cmd *cmd);
+char	*get_cmd_path(t_cmd *cmd);
 int		handle_builtin_in_parent(t_cmd *cmd, t_cmd *head, char *input);
 int		execute_command(t_cmd *cmd, t_cmd *head, char *input);
+int		child_exec(t_cmd *cmd, char *path);
+pid_t	prepare_and_fork(t_cmd *cmd, char **path);
+int		exec_external(t_cmd *cmd);
 
 /* Handle Redirection and Heredoc */
-int	has_redir(t_cmd *cmd);
 int	open_heredoc(char *delimiter);
 int	handle_redirections(t_redir *redir);
 

@@ -6,7 +6,7 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:21 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/29 13:45:21 by ayoub            ###   ########.fr       */
+/*   Updated: 2025/06/29 15:17:49 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(int ac, char **av, char **envp)
 	char	**tokens;
 	t_cmd	*cmd, *head;
 	int		j;
+	int		exit_code;
 
 	(void)ac;
 	(void)av;
@@ -41,8 +42,7 @@ int	main(int ac, char **av, char **envp)
 		cmd = head;
 		while (cmd)
 		{
-			if (!execute_command(cmd, head, input))
-				break ;
+			exit_code = execute_command(cmd, head, input);
 			cmd = cmd->next;
 		}
 		free_cmd_list(head);
@@ -53,5 +53,5 @@ int	main(int ac, char **av, char **envp)
 		free(input);
 	}
 	printf("exit\n");
-	return (0);
+	return (exit_code);
 }
