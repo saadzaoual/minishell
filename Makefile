@@ -1,60 +1,66 @@
-#colors
-RESET       = "\033[0m"
-RED         = "\033[31m"
-GREEN       = "\033[32m"
-YELLOW      = "\033[33m"
-#colors
+NAME        = minishell
 
-NAME = minishell
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+SRCS        = minishell.c \
+              src/parser/token.c \
+              src/parser/parcer.c \
+			  src/parser/syntax_error.c \
+              src/utils/token_utils/token1_utils.c \
+              src/utils/token_utils/token2_utils.c \
+              src/utils/parcer_utils/parcer1_utils.c \
+			  src/utils/parcer_utils/syntax_error_utils.c \
+			  src/execution/builtins/builtins.c \
+			  src/execution/builtins/echo.c \
+			  src/execution/builtins/cd.c \
+			  src/execution/builtins/env.c \
+			  src/execution/builtins/exit.c \
+			  src/execution/builtins/export.c \
+			  src/execution/builtins/pwd.c \
+			  src/execution/builtins/unset.c \
+			  src/execution/excve/path.c \
+			  src/execution/excve/execute.c \
+			  src/execution/excve/redirection.c \
+			  src/execution/excve/execute_command.c
 
-SRCS = 	minishell.c \
-		src/parser/token.c \
-		src/parser/parcer.c \
-		src/execution/builtins/builtins.c \
-		src/execution/builtins/cd.c \
-		src/execution/builtins/echo.c \
-		src/execution/builtins/env.c \
-		src/execution/builtins/exit.c \
-		src/execution/builtins/export.c \
-		src/execution/builtins/pwd.c \
-		src/execution/builtins/unset.c \
-		src/execution/excve/path.c \
-		src/execution/excve/execute.c \
+OBJS        = $(SRCS:.c=.o)
 
-OBJS = $(SRCS:.c=.o)
+LIBFT_DIR   = libft
+LIBFT       = $(LIBFT_DIR)/libft.a
 
-LIBFT_DIR = libft
-LIBFT = $(LIBFT_DIR)/libft.a
-LIBS = -lreadline -L$(LIBFT_DIR) -lft
-INCLUDES = -I$(LIBFT_DIR)
+INCLUDES    = -I$(LIBFT_DIR)
+LIBS        = -lreadline -L$(LIBFT_DIR) -lft
+
+YELLOW      = \033[1;33m
+GREEN       = \033[1;32m
+BLUE        = \033[1;34m
+RESET       = \033[0m
 
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBS)
-	@echo $(GREEN) " - Compiling FINISHED" $(RESET)
-
+	@echo "$(BLUE)[LINK]$(RESET)     Creating $(NAME)..."
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBS)
+	@echo "$(GREEN)[DONE]$(RESET)     Executable built!"
 
 $(LIBFT):
-	make -C $(LIBFT_DIR)
+	@echo "$(YELLOW)[LIBFT]$(RESET)    Building Libft..."
+	@$(MAKE) -s -C $(LIBFT_DIR)
 
-$(OBJS): %.o: %.c
-	@$(CC) $(CFLAGS) $(INCLUDES) -Iincludes -c $< -o $@
+%.o: %.c
+	@echo "$(BLUE)[COMPILE]$(RESET)  $<"
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
+	@echo "$(YELLOW)[CLEAN]$(RESET)   Removing object files..."
 	@rm -f $(OBJS)
-	@make -C $(LIBFT_DIR) clean
-	@echo $(RED) " - Cleaned!" $(RESET)
+	@$(MAKE) -s -C $(LIBFT_DIR) clean
 
 fclean: clean
+	@echo "$(YELLOW)[FCLEAN]$(RESET)  Removing executable and libft..."
 	@rm -f $(NAME)
-	@make -C $(LIBFT_DIR) fclean
-	@echo $(RED) " - Full Cleaned!" $(RESET)
+	@$(MAKE) -s -C $(LIBFT_DIR) fclean
 
 re: fclean all
-
 .PHONY: all clean fclean re
-

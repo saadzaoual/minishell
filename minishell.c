@@ -6,32 +6,24 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:21 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/25 20:46:11 by ayoub            ###   ########.fr       */
+/*   Updated: 2025/06/29 13:45:21 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 char **env;
-const char	*redir_type_str(t_rtype type)
-{
-	if (type == R_IN)
-		return ("input");
-	if (type == R_OUT)
-		return ("output");
-	return ("append");
-}
 
 int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	char	**tokens;
-	t_redir	*r;
+	t_cmd	*cmd, *head;
+	int		j;
 
 	(void)ac;
 	(void)av;
-	t_cmd *cmd, *head;
-	int i, j, k;
 	env = copy_env(envp);
+//	data.exit_code = 0;
 	while (1)
 	{
 		input = readline("minishell$> ");
@@ -47,33 +39,10 @@ int	main(int ac, char **av, char **envp)
 		}
 		head = parse_pipeline(tokens);
 		cmd = head;
-		i = 0;
 		while (cmd)
 		{
-			if (cmd->cmd)
-				printf("CMD[%d]: %s\n", i, cmd->cmd);
-			else
-				printf("CMD[%d]: (null)\n", i);
-			i++;
-			j = 0;
-			while (cmd->args && cmd->args[j])
-			{
-				printf("Arg[%d]: %s\n", j, cmd->args[j]);
-				j++;
-			}
-			k = 0;
-			r = cmd->redirs;
-			while (r)
-			{
-				printf("Redir[%d]: %s (%s)\n", k, r->file,
-					redir_type_str(r->type));
-				r = r->next;
-				k++;
-			}
-			if (is_builtin(cmd->cmd))
-				exec_builtin(cmd);
-			else
-				exec_external(cmd);
+			if (!execute_command(cmd, head, input))
+				break ;
 			cmd = cmd->next;
 		}
 		free_cmd_list(head);
