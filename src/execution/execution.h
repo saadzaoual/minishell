@@ -6,7 +6,7 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:04:31 by ael-azha          #+#    #+#             */
-/*   Updated: 2025/06/29 15:20:01 by ayoub            ###   ########.fr       */
+/*   Updated: 2025/06/29 17:20:19 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,10 @@ int		exec_external(t_cmd *cmd);
 /* Handle Redirection and Heredoc */
 int	open_heredoc(char *delimiter);
 int	handle_redirections(t_redir *redir);
+
+/* Handle Pipe */
+void	child_process(t_cmd *cmd, int prev_fd, int *fd);
+void	handle_parent(int *prev_fd, int *fd);
+int		execute_pipeline(t_cmd *cmd);
 
 #endif

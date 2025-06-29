@@ -6,7 +6,7 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:21 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/29 15:30:03 by ayoub            ###   ########.fr       */
+/*   Updated: 2025/06/29 17:14:29 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	char	**tokens;
-	t_cmd	*cmd, *head;
+//	t_cmd	*cmd;
+	t_cmd	*head;
 	int		j;
 	int		exit_code;
 
@@ -39,12 +40,14 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		head = parse_pipeline(tokens);
-		cmd = head;
-		while (cmd)
-		{
-			exit_code = execute_command(cmd, head, input);
-			cmd = cmd->next;
-		}
+		if (head)
+			exit_code = execute_command(head, head, input);
+//		cmd = head;
+		// while (cmd)
+		// {
+		// 	exit_code = execute_command(cmd, head, input);
+		// 	cmd = cmd->next;
+		// }
 		free_cmd_list(head);
 		j = 0;
 		while (tokens[j])

@@ -6,7 +6,7 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:27:00 by szaoual           #+#    #+#             */
-/*   Updated: 2025/06/29 13:42:53 by ayoub            ###   ########.fr       */
+/*   Updated: 2025/06/29 16:46:18 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_cmd
 {
 //.	char			**env;//Stored the env information
 //	int				exit_code;//For exit status
+	int				infile;
+	int				outfile;
 	char			*cmd;
 	char			**args;
 	t_redir			*redirs;

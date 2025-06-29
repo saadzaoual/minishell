@@ -22,7 +22,8 @@ SRCS        = minishell.c \
 			  src/execution/excve/path.c \
 			  src/execution/excve/execute.c \
 			  src/execution/excve/redirection.c \
-			  src/execution/excve/execute_command.c
+			  src/execution/excve/execute_command.c \
+			  src/execution/excve/pipe.c \
 
 OBJS        = $(SRCS:.c=.o)
 

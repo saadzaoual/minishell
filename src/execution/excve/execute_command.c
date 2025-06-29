@@ -6,7 +6,7 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:14:41 by ayoub             #+#    #+#             */
-/*   Updated: 2025/06/29 15:12:38 by ayoub            ###   ########.fr       */
+/*   Updated: 2025/06/29 17:07:33 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	execute_command(t_cmd *cmd, t_cmd *head, char *input)
 {
 	pid_t	pid;
 
+	if (cmd->next)
+		return (execute_pipeline(cmd));
 	if (is_builtin(cmd->cmd))
 	{
 		if (!ft_strncmp(cmd->cmd, "cd", 2) ||
@@ -62,6 +64,6 @@ int	execute_command(t_cmd *cmd, t_cmd *head, char *input)
 		waitpid(pid, NULL, 0);
 	}
 	else
-		exec_external(cmd);
-	return (1);
+		return (exec_external(cmd));
+	return (0);
 }
